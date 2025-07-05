@@ -154,7 +154,7 @@
         method: "POST",
         body: formData
       })
-      .then(res => res.ok ? document.getElementById("uploadStatus").textContent = "Чек успешно отправлен!" : alert("Ошибка при отправке")) 
+      .then(res => res.ok ? document.getElementById("uploadStatus").textContent = "Чек успешно отправлен! Ожидайте звонка оператора для назначения курьера" : alert("Ошибка при отправке")) 
       .catch(err => alert("Ошибка: " + err));
     }
   </script>
