@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PET TAXI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background: #fffaf5; color: #333; line-height: 1.6; }
+    header, section { padding: 60px 20px; text-align: center; }
+    header { background: linear-gradient(135deg, #ff7b00, #ffbb33); color: white; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; }
+    h1 { font-size: 2.5rem; margin-bottom: 10px; }
+    h2 { font-size: 2rem; margin-bottom: 20px; }
+    p { max-width: 700px; margin: 0 auto 20px; font-size: 1.1rem; }
+    .btn {
+      background: #ff7b00;
+      color: white;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+    .btn:hover { background: #e86f00; }
+    .img {
+      max-width: 100%;
+      border-radius: 24px;
+      margin: 30px auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .popup, .payment-page {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .popup-content, .payment-content {
+      background: white;
+      padding: 30px;
+      border-radius: 24px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    }
+    input, textarea {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      font-size: 1rem;
+    }
+    .close-btn {
+      background: none;
+      border: none;
+      color: #ff7b00;
+      font-size: 20px;
+      float: right;
+      cursor: pointer;
+    }
+    #uploadStatus { margin-top: 15px; font-weight: 600; color: green; }
+    @media(max-width: 600px) {
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.5rem; }
+      .btn { padding: 12px 20px; font-size: 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>PET TAXI</h1>
+    <p>Безопасная перевозка домашних животных по вашему маршруту</p>
+  </header>
+
+  <section>
+    <h2>Комфорт и забота</h2>
+    <p>Ваш питомец в надежных руках: мягкие клетки, вентиляция и любовь к каждому пассажиру.</p>
+    <img src="https://sun9-7.userapi.com/impf/4l0DlEyDw7f4aYM6kFLundbGFxbVhyDmtleMGg/MOoZ1ogXPjg.jpg?size=1920x768&quality=95&crop=0,0,1251,500&sign=63a248f0c8643ab5800ed13205e8f0e3&type=cover_group" alt="Такси для животных" class="img">
+    <button class="btn" onclick="openForm()">Заказать доставку</button>
+  </section>
+
+  <section>
+    <h2>Наш транспорт</h2>
+    <p>Машины оборудованы системами безопасности, кондиционированием и отсеком для перевозки.</p>
+    <img src="https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_683380ea556772055e6df54d_683380fbd0b5650e72c5abc3/scale_1200" alt="Транспорт" class="img">
+    <button class="btn" onclick="openForm()">Заказать доставку</button>
+  </section>
+
+  <section>
+    <h2>Счастливые пассажиры</h2>
+    <p>Сотни довольных питомцев и благодарных владельцев уже воспользовались PET TAXI.</p>
+    <img src="https://i.pinimg.com/originals/e9/2e/ab/e92eab95879cac96f911b80463814cb6.jpg" alt="Собака едет" class="img">
+    <button class="btn" onclick="openForm()">Заказать доставку</button>
+  </section>
+
+  <div class="popup" id="formPopup">
+    <div class="popup-content">
+      <button class="close-btn" onclick="closeForm()">✖</button>
+      <h2>Заполните анкету</h2>
+      <form id="orderForm">
+        <input type="text" placeholder="ФИО" required />
+        <input type="tel" placeholder="Номер телефона" required />
+        <input type="text" placeholder="Город отправления" required />
+        <input type="text" placeholder="Адрес отправления" required />
+        <input type="text" placeholder="Порода животного" required />
+        <input type="text" placeholder="Вес животного (примерно)" required />
+        <input type="text" placeholder="Город назначения" required />
+        <input type="text" placeholder="Адрес назначения" required />
+        <button type="button" class="btn" onclick="showPaymentPage()">Оплатить</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="payment-page" id="paymentPage">
+    <div class="payment-content">
+      <h2>Оплата заказа</h2>
+      <p><strong>Номер заказа:</strong> #<span id="orderId">23489</span></p>
+      <p><strong>Реквизиты:</strong><br>Уралсиб: 2200190280808927<br>Получатель: Бесова Ксения Геннадиевна</p>
+      <p>Прикрепите чек после оплаты:</p>
+      <input type="file" id="fileUpload" accept="image/*,.pdf" />
+      <button class="btn" onclick="sendToTelegram()">Прикрепить чек</button>
+      <p id="uploadStatus"></p>
+    </div>
+  </div>
+
+  <script>
+    function openForm() {
+      document.getElementById("formPopup").style.display = "flex";
+    }
+    function closeForm() {
+      document.getElementById("formPopup").style.display = "none";
+    }
+    function showPaymentPage() {
+      closeForm();
+      document.getElementById("paymentPage").style.display = "flex";
+    }
+    function sendToTelegram() {
+      const file = document.getElementById("fileUpload").files[0];
+      if (!file) return alert("Пожалуйста, выберите файл");
+
+      const token = '7442242270:AAECGtUdqJU1jJdXhtaWe7IaHLtQF05YWYg';
+      const chatId = '7855296199';
+      const formData = new FormData();
+      formData.append("document", file);
+      formData.append("chat_id", chatId);
+
+      fetch(`https://api.telegram.org/bot${token}/sendDocument`, {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.ok ? document.getElementById("uploadStatus").textContent = "Чек успешно отправлен!" : alert("Ошибка при отправке")) 
+      .catch(err => alert("Ошибка: " + err));
+    }
+  </script>
+</body>
+</html>
